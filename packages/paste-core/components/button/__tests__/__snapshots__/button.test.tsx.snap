@@ -412,13 +412,14 @@ exports[`Button States Has a loading state 1`] = `
 }
 
 .emotion-1 {
+  box-sizing: border-box;
+  color: currentColor;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
   width: 1.25rem;
   height: 1.25rem;
-  color: currentColor;
 }
 
 .emotion-9 {
@@ -576,6 +577,7 @@ exports[`Button States Has a loading state 1`] = `
     </span>
     <span
       className="emotion-3"
+      data-paste-element="BOX"
     >
       <div
         className="emotion-2"
@@ -583,6 +585,8 @@ exports[`Button States Has a loading state 1`] = `
       >
         <span
           className="emotion-1"
+          color="currentColor"
+          data-paste-element="ICON"
           display="inline-flex"
           size="sizeIcon20"
         >
@@ -623,6 +627,7 @@ exports[`Button States Has a loading state 1`] = `
     </span>
     <span
       className="emotion-3"
+      data-paste-element="BOX"
     >
       <div
         className="emotion-2"
@@ -630,6 +635,8 @@ exports[`Button States Has a loading state 1`] = `
       >
         <span
           className="emotion-1"
+          color="currentColor"
+          data-paste-element="ICON"
           display="inline-flex"
           size="sizeIcon20"
         >
@@ -670,6 +677,7 @@ exports[`Button States Has a loading state 1`] = `
     </span>
     <span
       className="emotion-3"
+      data-paste-element="BOX"
     >
       <div
         className="emotion-2"
@@ -677,6 +685,8 @@ exports[`Button States Has a loading state 1`] = `
       >
         <span
           className="emotion-1"
+          color="currentColor"
+          data-paste-element="ICON"
           display="inline-flex"
           size="sizeIcon20"
         >
@@ -717,6 +727,7 @@ exports[`Button States Has a loading state 1`] = `
     </span>
     <span
       className="emotion-3"
+      data-paste-element="BOX"
     >
       <div
         className="emotion-2"
@@ -724,6 +735,8 @@ exports[`Button States Has a loading state 1`] = `
       >
         <span
           className="emotion-1"
+          color="currentColor"
+          data-paste-element="ICON"
           display="inline-flex"
           size="sizeIcon20"
         >
@@ -764,6 +777,7 @@ exports[`Button States Has a loading state 1`] = `
     </span>
     <span
       className="emotion-3"
+      data-paste-element="BOX"
     >
       <div
         className="emotion-2"
@@ -771,6 +785,8 @@ exports[`Button States Has a loading state 1`] = `
       >
         <span
           className="emotion-1"
+          color="currentColor"
+          data-paste-element="ICON"
           display="inline-flex"
           size="sizeIcon20"
         >
@@ -811,6 +827,7 @@ exports[`Button States Has a loading state 1`] = `
     </span>
     <span
       className="emotion-3"
+      data-paste-element="BOX"
     >
       <div
         className="emotion-2"
@@ -818,6 +835,8 @@ exports[`Button States Has a loading state 1`] = `
       >
         <span
           className="emotion-1"
+          color="currentColor"
+          data-paste-element="ICON"
           display="inline-flex"
           size="sizeIcon20"
         >

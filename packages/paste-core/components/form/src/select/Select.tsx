@@ -1,14 +1,13 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import {styled, css} from '@twilio-paste/styling-library';
-import {Box} from '@twilio-paste/box';
+import {Box, BoxProps, safelySpreadBoxProps} from '@twilio-paste/box';
 import {ChevronDownIcon} from '@twilio-paste/icons/esm/ChevronDownIcon';
 import {Prefix} from '../shared/Prefix';
 import {Suffix} from '../shared/Suffix';
 import {FieldWrapper} from '../shared/FieldWrapper';
 import {restrictedProps} from '../shared/restricted-attributes';
 
-export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement>, Pick<BoxProps, 'element'> {
   id: string;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   insertBefore?: React.ReactNode;
@@ -33,42 +32,51 @@ export const SelectIconWrapper: React.FC<{children: React.ReactNode}> = ({childr
   </Box>
 );
 
-const SelectElement = styled.select(
-  css({
-    appearance: 'none',
-    border: 'none',
-    background: 'transparent',
-    outline: 'none',
-    resize: 'none',
-    display: 'block',
-    width: '100%',
-    fontFamily: 'inherit',
-    fontSize: 'fontSize30',
-    lineHeight: 'lineHeight30',
-    fontWeight: 'fontWeightNormal',
-    color: 'colorText',
-    paddingTop: 'space30',
-    paddingRight: 'space100',
-    paddingBottom: 'space30',
-    paddingLeft: 'space40',
-    borderRadius: 'borderRadius20',
-    boxShadow: 'none',
-    cursor: 'pointer',
-
-    '&:disabled': {
-      cursor: 'not-allowed',
-      color: 'colorTextWeak',
-    },
-  })
-);
+export const SelectElement = React.forwardRef<HTMLSelectElement, SelectProps>(({element, ...props}, ref) => {
+  return (
+    <Box
+      {...safelySpreadBoxProps(props)}
+      as="select"
+      element={element}
+      appearance="none"
+      borderWidth="borderWidth0"
+      backgroundColor="transparent"
+      outline="none"
+      resize="none"
+      display="block"
+      width="100%"
+      fontFamily="inherit"
+      fontSize="fontSize30"
+      lineHeight="lineHeight30"
+      fontWeight="fontWeightNormal"
+      color="colorText"
+      paddingTop="space30"
+      paddingRight="space100"
+      paddingBottom="space30"
+      paddingLeft="space40"
+      borderRadius="borderRadius20"
+      boxShadow="none"
+      cursor="pointer"
+      _disabled={{
+        cursor: 'not-allowed',
+        color: 'colorTextWeak',
+      }}
+      ref={ref}
+    />
+  );
+});
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({disabled, hasError, insertBefore, insertAfter, children, size, multiple, ...props}, ref) => (
-    <FieldWrapper disabled={disabled} hasError={hasError}>
+  (
+    {element = 'FORM_SELECT', disabled, hasError, insertBefore, insertAfter, children, size, multiple, ...props},
+    ref
+  ) => (
+    <FieldWrapper element={`${element}_WRAPPER`} disabled={disabled} hasError={hasError}>
       {insertBefore && <Prefix>{insertBefore}</Prefix>}
       <Box display="flex" width="100%" position="relative">
         <SelectElement
           aria-invalid={hasError}
+          element={element}
           ref={ref}
           multiple={multiple}
           disabled={disabled}

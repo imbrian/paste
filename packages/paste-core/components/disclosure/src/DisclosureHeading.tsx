@@ -5,7 +5,7 @@ import {ChevronDownIcon, ChevronDownIconProps} from '@twilio-paste/icons/esm/Che
 import {DisclosurePrimitive, DisclosurePrimitiveProps} from '@twilio-paste/disclosure-primitive';
 import {DisclosureContext, Variants} from './Disclosure';
 
-export interface DisclosureHeadingProps extends Omit<DisclosurePrimitiveProps, 'baseId' | 'toggle'> {
+export interface DisclosureHeadingProps extends Omit<DisclosurePrimitiveProps, 'baseId' | 'toggle' | 'color'> {
   children: NonNullable<React.ReactNode>;
   as: HeadingProps['as'];
   marginBottom?: HeadingProps['marginBottom'];

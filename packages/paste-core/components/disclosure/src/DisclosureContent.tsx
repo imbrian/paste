@@ -18,7 +18,7 @@ const getVariantStyles = (variant: Variants): {} => {
   }
 };
 
-export interface DisclosureContentProps extends DisclosurePrimitiveContentProps {
+export interface DisclosureContentProps extends Omit<DisclosurePrimitiveContentProps, 'color'> {
   children: NonNullable<React.ReactNode>;
 }
 const DisclosureContent: React.FC<DisclosureContentProps> = ({children, ...props}) => {

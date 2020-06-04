@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import {styled, css} from '@twilio-paste/styling-library';
+import {BoxProps, Box, safelySpreadBoxProps} from '@twilio-paste/box';
 import TextareaAutosize from 'react-autosize-textarea';
 import {FieldWrapper} from './shared/FieldWrapper';
 import {Prefix} from './shared/Prefix';
 import {Suffix} from './shared/Suffix';
 import {safelySpreadFormControlProps} from './shared/Utils';
 
-export interface FormTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface FormTextAreaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    Pick<BoxProps, 'element'> {
   id: string;
   name?: string;
   placeholder?: string;
@@ -24,51 +26,71 @@ export interface FormTextAreaProps extends React.TextareaHTMLAttributes<HTMLText
   width?: never;
 }
 
-/* eslint-disable emotion/syntax-preference */
-const TextAreaElement = styled(TextareaAutosize)(() =>
-  css({
-    appearance: 'none',
-    border: 'none',
-    background: 'transparent',
-    outline: 'none',
-    display: 'block',
-    width: '100%',
-    maxHeight: 'size30',
-    fontFamily: 'inherit',
-    fontSize: 'fontSize30',
-    lineHeight: 'lineHeight30',
-    fontWeight: 'fontWeightNormal',
-    color: 'colorText',
-    paddingTop: 'space30',
-    paddingRight: 'space40',
-    paddingBottom: 'space30',
-    paddingLeft: 'space40',
-    borderRadius: 'borderRadius20',
-    resize: 'vertical',
-    boxShadow: 'none',
-
-    '&::placeholder': {
-      color: 'colorTextWeak',
-      fontStyle: 'italic',
-    },
-
-    '&:disabled': {
-      cursor: 'not-allowed',
-      color: 'colorTextWeak',
-    },
-  })
+export const TextAreaElement = React.forwardRef<HTMLTextAreaElement, FormTextAreaProps & TextareaAutosize.Props>(
+  ({element, ...props}, ref) => {
+    return (
+      <Box
+        {...safelySpreadBoxProps(props)}
+        element={element}
+        as={TextareaAutosize}
+        appearance="none"
+        borderWidth="borderWidth0"
+        backgroundColor="transparent"
+        outline="none"
+        display="block"
+        width="100%"
+        maxHeight="size30"
+        fontFamily="inherit"
+        fontSize="fontSize30"
+        lineHeight="lineHeight30"
+        fontWeight="fontWeightNormal"
+        color="colorText"
+        paddingTop="space30"
+        paddingRight="space40"
+        paddingBottom="space30"
+        paddingLeft="space40"
+        borderRadius="borderRadius20"
+        resize="vertical"
+        boxShadow="none"
+        _placeholder={{
+          color: 'colorTextWeak',
+          fontStyle: 'italic',
+        }}
+        _disabled={{
+          cursor: 'not-allowed',
+          color: 'colorTextWeak',
+        }}
+        ref={ref}
+      />
+    );
+  }
 );
-/* eslint-enable */
 
 const FormTextArea = React.forwardRef<HTMLTextAreaElement, FormTextAreaProps>(
-  ({id, name, placeholder, children, readOnly, disabled, hasError, insertBefore, insertAfter, ...props}, ref) => {
+  (
+    {
+      element = 'FORM_TEXTAREA',
+      id,
+      name,
+      placeholder,
+      children,
+      readOnly,
+      disabled,
+      hasError,
+      insertBefore,
+      insertAfter,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <FieldWrapper readOnly={readOnly} disabled={disabled} hasError={hasError}>
+      <FieldWrapper element={`${element}_WRAPPER`} readOnly={readOnly} disabled={disabled} hasError={hasError}>
         {insertBefore && <Prefix>{insertBefore}</Prefix>}
         <TextAreaElement
           aria-invalid={hasError}
           aria-readonly={readOnly}
           {...safelySpreadFormControlProps(props)}
+          element={element}
           async
           ref={ref}
           id={id}

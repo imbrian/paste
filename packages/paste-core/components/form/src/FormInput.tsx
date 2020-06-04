@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import {styled, css} from '@twilio-paste/styling-library';
+import {BoxProps, Box, safelySpreadBoxProps} from '@twilio-paste/box';
 import {FieldWrapper} from './shared/FieldWrapper';
 import {Prefix} from './shared/Prefix';
 import {Suffix} from './shared/Suffix';
 import {FormInputTypes} from './shared/types';
 import {safelySpreadFormControlProps} from './shared/Utils';
 
-export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement>, Pick<BoxProps, 'element'> {
   id: string;
   type: FormInputTypes;
   value: string;
@@ -32,44 +32,60 @@ interface TypeProps {
   pattern?: string | undefined;
 }
 
-/* eslint-disable emotion/syntax-preference */
-export const InputElement = styled.input(
-  css({
-    appearance: 'none',
-    border: 'none',
-    background: 'transparent',
-    outline: 'none',
-    resize: 'none',
-    display: 'block',
-    width: '100%',
-    fontFamily: 'inherit',
-    fontSize: 'fontSize30',
-    lineHeight: 'lineHeight30',
-    fontWeight: 'fontWeightNormal',
-    color: 'colorText',
-    paddingTop: 'space30',
-    paddingRight: 'space40',
-    paddingBottom: 'space30',
-    paddingLeft: 'space40',
-    borderRadius: 'borderRadius20',
-    boxShadow: 'none',
-
-    '&::placeholder': {
-      color: 'colorTextWeak',
-      fontStyle: 'italic',
-    },
-
-    '&:disabled': {
-      cursor: 'not-allowed',
-      color: 'colorTextWeak',
-    },
-  })
-);
-/* eslint-enable */
+export const InputElement = React.forwardRef<HTMLInputElement, FormInputProps>(({element, ...props}, ref) => {
+  return (
+    <Box
+      {...safelySpreadBoxProps(props)}
+      as="input"
+      appearance="none"
+      borderWidth="borderWidth0"
+      backgroundColor="transparent"
+      element={element}
+      outline="none"
+      resize="none"
+      display="block"
+      width="100%"
+      fontFamily="inherit"
+      fontSize="fontSize30"
+      lineHeight="lineHeight30"
+      fontWeight="fontWeightNormal"
+      color="colorText"
+      paddingTop="space30"
+      paddingRight="space40"
+      paddingBottom="space30"
+      paddingLeft="space40"
+      borderRadius="borderRadius20"
+      boxShadow="none"
+      _placeholder={{
+        color: 'colorTextWeak',
+        fontStyle: 'italic',
+      }}
+      _disabled={{
+        cursor: 'not-allowed',
+        color: 'colorTextWeak',
+      }}
+      ref={ref}
+    />
+  );
+});
 
 const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
   (
-    {id, type, name, value, placeholder, disabled, readOnly, required, hasError, insertBefore, insertAfter, ...props},
+    {
+      id,
+      element = 'FORM_INPUT',
+      type,
+      name,
+      value,
+      placeholder,
+      disabled,
+      readOnly,
+      required,
+      hasError,
+      insertBefore,
+      insertAfter,
+      ...props
+    },
     ref
   ) => {
     const typeProps: TypeProps = {type};
@@ -82,13 +98,20 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
     }
 
     return (
-      <FieldWrapper type={type} readOnly={readOnly} disabled={disabled} hasError={hasError}>
+      <FieldWrapper
+        element={`${element}_WRAPPER`}
+        type={type}
+        readOnly={readOnly}
+        disabled={disabled}
+        hasError={hasError}
+      >
         {insertBefore && <Prefix>{insertBefore}</Prefix>}
         <InputElement
           aria-invalid={hasError}
           aria-readonly={readOnly}
           {...safelySpreadFormControlProps(props)}
           {...typeProps}
+          element={element}
           ref={ref}
           id={id}
           name={name}

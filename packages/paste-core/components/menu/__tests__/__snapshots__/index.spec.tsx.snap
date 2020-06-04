@@ -218,6 +218,7 @@ exports[`Menu  Render should render 1`] = `
     aria-orientation="vertical"
     class="emotion-14"
     data-dialog="true"
+    data-paste-element="MENU"
     hidden=""
     id="menu-example"
     role="menu"
@@ -226,6 +227,7 @@ exports[`Menu  Render should render 1`] = `
   >
     <a
       class="emotion-1"
+      data-paste-element="MENU_ITEM"
       data-testid="example-menu-item"
       display="block"
       id="menu-example-1"
@@ -236,6 +238,7 @@ exports[`Menu  Render should render 1`] = `
       <div
         class="emotion-0"
         color="colorText"
+        data-paste-element="TEXT"
         font-size="fontSize30"
         text-decoration="underline"
       >
@@ -244,6 +247,7 @@ exports[`Menu  Render should render 1`] = `
     </a>
     <a
       class="emotion-1"
+      data-paste-element="MENU_ITEM"
       display="block"
       id="menu-example-2"
       role="menuitem"
@@ -253,6 +257,7 @@ exports[`Menu  Render should render 1`] = `
       <div
         class="emotion-2"
         color="colorText"
+        data-paste-element="TEXT"
         font-size="fontSize30"
       >
         Check for Updates...
@@ -261,6 +266,7 @@ exports[`Menu  Render should render 1`] = `
     <hr
       aria-orientation="horizontal"
       class="emotion-4"
+      data-paste-element="BOX"
       data-testid="example-menu-separator"
       role="separator"
       width="auto"
@@ -288,6 +294,7 @@ exports[`Menu  Render should render 1`] = `
       aria-orientation="vertical"
       class="emotion-14"
       data-dialog="true"
+      data-paste-element="MENU"
       data-testid="example-submenu"
       hidden=""
       id="sub-menu"
@@ -297,6 +304,7 @@ exports[`Menu  Render should render 1`] = `
     >
       <a
         class="emotion-1"
+        data-paste-element="MENU_ITEM"
         data-testid="example-submenu-item"
         display="block"
         id="sub-menu-1"
@@ -307,6 +315,7 @@ exports[`Menu  Render should render 1`] = `
         <div
           class="emotion-0"
           color="colorText"
+          data-paste-element="TEXT"
           font-size="fontSize30"
           text-decoration="underline"
         >
@@ -316,6 +325,7 @@ exports[`Menu  Render should render 1`] = `
       <a
         aria-disabled="true"
         class="emotion-1"
+        data-paste-element="MENU_ITEM"
         data-testid="example-disabled-submenu-item"
         disabled=""
         display="block"
@@ -326,6 +336,7 @@ exports[`Menu  Render should render 1`] = `
         <div
           class="emotion-9"
           color="colorTextWeaker"
+          data-paste-element="TEXT"
           font-size="fontSize30"
         >
           Extensions
@@ -334,11 +345,13 @@ exports[`Menu  Render should render 1`] = `
       <hr
         aria-orientation="horizontal"
         class="emotion-4"
+        data-paste-element="BOX"
         role="separator"
         width="auto"
       />
       <a
         class="emotion-1"
+        data-paste-element="MENU_ITEM"
         display="block"
         id="sub-menu-3"
         role="menuitem"
@@ -348,6 +361,7 @@ exports[`Menu  Render should render 1`] = `
         <div
           class="emotion-2"
           color="colorText"
+          data-paste-element="TEXT"
           font-size="fontSize30"
         >
           Keyboard shortcuts

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import {Box, safelySpreadBoxProps} from '@twilio-paste/box';
+import {Box, BoxProps, safelySpreadBoxProps} from '@twilio-paste/box';
 import {Text} from '@twilio-paste/text';
 import {TabPrimitive} from '@twilio-paste/tabs-primitive';
 import {TabsContext} from './TabsContext';
@@ -63,14 +63,14 @@ const getTabTextStyles = (props: TabProps): {} => {
   };
 };
 
-export interface TabProps {
+export interface TabProps extends Pick<BoxProps, 'element'> {
   id?: string | undefined;
   focusable?: boolean | undefined;
   disabled?: boolean | undefined;
   children: React.ReactNode;
 }
 
-const Tab = React.forwardRef<HTMLDivElement, TabProps>(({children, ...tabProps}, ref) => {
+const Tab = React.forwardRef<HTMLDivElement, TabProps>(({children, element = 'TAB', ...tabProps}, ref) => {
   const tab = React.useContext(TabsContext);
   const boxStyles = React.useMemo(() => getTabBoxStyles(tab.orientation), [tab.orientation]);
   return (
@@ -81,6 +81,7 @@ const Tab = React.forwardRef<HTMLDivElement, TabProps>(({children, ...tabProps},
           <Box
             {...safelySpreadBoxProps(props)}
             {...boxStyles}
+            element={element}
             position="relative"
             cursor={props['aria-disabled'] ? 'not-allowed' : 'pointer'}
             transition="border-color 100ms ease"

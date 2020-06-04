@@ -1,17 +1,17 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import {Box} from '@twilio-paste/box';
+import {Box, BoxProps} from '@twilio-paste/box';
 import {BoxShadow} from '@twilio-paste/style-props';
 import {FormInputTypes} from './types';
 
-interface FieldWrapperProps {
+interface FieldWrapperProps extends Pick<BoxProps, 'element'> {
   disabled?: boolean;
   hasError?: boolean;
   readOnly?: boolean;
   type?: FormInputTypes;
 }
 
-const FieldWrapper: React.FC<FieldWrapperProps> = ({disabled, hasError, readOnly, children, type}) => {
+const FieldWrapper: React.FC<FieldWrapperProps> = ({element, disabled, hasError, readOnly, children, type}) => {
   let boxShadow = 'shadowBorder' as BoxShadow;
   let boxShadowHover = 'shadowBorderPrimaryDark' as BoxShadow;
   if (disabled) {
@@ -28,6 +28,7 @@ const FieldWrapper: React.FC<FieldWrapperProps> = ({disabled, hasError, readOnly
 
   return (
     <Box
+      element={element}
       display="flex"
       width="100%"
       backgroundColor={readOnly || disabled ? 'colorBackground' : 'colorBackgroundBody'}

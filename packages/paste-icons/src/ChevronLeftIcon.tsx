@@ -10,13 +10,21 @@ export interface ChevronLeftIconProps extends IconWrapperProps {
   decorative: boolean;
 }
 
-const ChevronLeftIcon: React.FC<ChevronLeftIconProps> = ({as, display, size, iconColor, title, decorative}) => {
+const ChevronLeftIcon: React.FC<ChevronLeftIconProps> = ({
+  as,
+  display,
+  size,
+  iconColor,
+  title,
+  decorative,
+  ...props
+}) => {
   if (!decorative && title == null) {
     throw new Error('[ChevronLeftIcon]: Missing a title for non-decorative icon.');
   }
 
   return (
-    <IconWrapper as={as} display={display} size={size} iconColor={iconColor}>
+    <IconWrapper as={as} display={display} size={size} iconColor={iconColor} {...props}>
       <UID>
         {uid => (
           <svg role="img" aria-hidden={decorative} aria-labelledby={uid} width="100%" height="100%" viewBox="0 0 24 24">

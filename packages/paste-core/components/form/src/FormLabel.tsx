@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import {styled, css} from '@twilio-paste/styling-library';
-import {Box, safelySpreadBoxProps} from '@twilio-paste/box';
+import {Box, safelySpreadBoxProps, BoxProps} from '@twilio-paste/box';
 import {Flex} from '@twilio-paste/flex';
 import {Text} from '@twilio-paste/text';
 import {ScreenReaderOnly} from '@twilio-paste/screen-reader-only';
 
-export interface FormLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface FormLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement>, Pick<BoxProps, 'element'> {
   children: NonNullable<React.ReactNode>;
   htmlFor: string | undefined;
   as?: 'label' | 'legend';
@@ -30,7 +30,15 @@ const StyledRequiredDot = styled(Text)(
   })
 );
 
-const FormLabel: React.FC<FormLabelProps> = ({as, marginBottom, required, disabled, children, ...props}) => {
+const FormLabel: React.FC<FormLabelProps> = ({
+  as,
+  element = 'FORM_LABEL',
+  marginBottom,
+  required,
+  disabled,
+  children,
+  ...props
+}) => {
   return (
     <Box
       {...safelySpreadBoxProps(props)}
@@ -39,6 +47,7 @@ const FormLabel: React.FC<FormLabelProps> = ({as, marginBottom, required, disabl
       // on legend in Console.
       borderBottomWidth="borderWidth0"
       display="block"
+      element={element}
       marginBottom={marginBottom || 'space10'}
       paddingLeft="space0"
       paddingRight="space0"
@@ -52,6 +61,7 @@ const FormLabel: React.FC<FormLabelProps> = ({as, marginBottom, required, disabl
         ) : null}
         <Text
           as="span"
+          element={`${element}_TEXT`}
           fontSize="fontSize30"
           fontWeight="fontWeightSemibold"
           lineHeight="lineHeight30"

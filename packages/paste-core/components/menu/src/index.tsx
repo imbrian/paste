@@ -25,15 +25,16 @@ export interface MenuItemProps extends MenuPrimitiveItemProps {
 }
 export type MenuSeparatorProps = MenuPrimitiveSeparatorProps;
 export type MenuButtonProps = MenuPrimitiveButtonProps & ButtonProps;
-export type SubMenuButtonProps = MenuPrimitiveButtonProps;
+export type SubMenuButtonProps = MenuPrimitiveButtonProps & BoxProps;
 interface StyledMenuItemProps extends BoxProps {
   href?: string;
 }
 
-const StyledMenu = React.forwardRef<HTMLDivElement, BoxProps>(({style, ...props}, ref) => {
+const StyledMenu = React.forwardRef<HTMLDivElement, BoxProps>(({style, element = 'MENU', ...props}, ref) => {
   return (
     <Box
       {...safelySpreadBoxProps(props)}
+      element={element}
       backgroundColor="colorBackgroundBody"
       borderStyle="solid"
       borderWidth="borderWidth10"
@@ -51,12 +52,13 @@ const StyledMenu = React.forwardRef<HTMLDivElement, BoxProps>(({style, ...props}
 });
 
 const StyledMenuItem = React.forwardRef<HTMLDivElement | HTMLAnchorElement, StyledMenuItemProps>(
-  ({children, ...props}, ref) => {
+  ({children, element = 'MENU_ITEM', ...props}, ref) => {
     return (
       <Box
         {...(props.href && secureExternalLink(props.href))}
         {...safelySpreadBoxProps(props)}
         as="a"
+        element={element}
         display="block"
         padding="space30"
         paddingLeft="space50"
@@ -88,7 +90,7 @@ const StyledMenuSeparator: React.FC<SeparatorProps> = props => {
   return <Separator {...props} orientation="horizontal" />;
 };
 
-const Menu = React.forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
+const Menu = React.forwardRef<Omit<HTMLDivElement, 'color'>, Omit<MenuProps, 'color'>>((props, ref) => {
   return <MenuPrimitive {...props} as={StyledMenu} ref={ref} />;
 });
 Menu.displayName = 'Menu';
@@ -117,21 +119,23 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>((props, 
 MenuButton.displayName = 'MenuButton';
 export {MenuButton};
 
-const SubMenuButton = React.forwardRef<HTMLButtonElement, SubMenuButtonProps>((props, ref) => {
-  // MenuPrimitiveButton from reakit types `as` as HTML element names, but accepts components. any prevents type errors
-  return (
-    <MenuPrimitiveButton {...props} as={StyledMenuItem as any} ref={ref}>
-      <MediaObject as="div" verticalAlign="center">
-        <MediaBody as="div">{props.children}</MediaBody>
-        <MediaFigure as="div" align="end" spacing="space20">
-          <Box display="flex" transform="rotate(-90deg)">
-            <ChevronDownIcon decorative size="sizeIcon20" />
-          </Box>
-        </MediaFigure>
-      </MediaObject>
-    </MenuPrimitiveButton>
-  );
-});
+const SubMenuButton = React.forwardRef<HTMLButtonElement, SubMenuButtonProps>(
+  ({children, element = 'SUB_MENU_BUTTON', ...props}, ref) => {
+    // MenuPrimitiveButton from reakit types `as` as HTML element names, but accepts components. any prevents type errors
+    return (
+      <MenuPrimitiveButton {...props} as={StyledMenuItem as any} element={element} ref={ref}>
+        <MediaObject as="div" verticalAlign="center">
+          <MediaBody as="div">{children}</MediaBody>
+          <MediaFigure as="div" align="end" spacing="space20">
+            <Box display="flex" transform="rotate(-90deg)">
+              <ChevronDownIcon decorative size="sizeIcon20" />
+            </Box>
+          </MediaFigure>
+        </MediaObject>
+      </MenuPrimitiveButton>
+    );
+  }
+);
 SubMenuButton.displayName = 'SubMenuButton';
 export {SubMenuButton};
 

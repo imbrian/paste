@@ -4,7 +4,7 @@ import {ThemeShape} from '@twilio-paste/theme';
 import {ResponsiveValue, TLengthStyledSystem} from '@twilio-paste/styling-library';
 
 // Tokens
-export type BackgroundColorOptions = keyof ThemeShape['backgroundColors'];
+export type BackgroundColorOptions = keyof ThemeShape['backgroundColors'] | 'transparent';
 export type BackgroundColor = ResponsiveValue<BackgroundColorOptions>;
 
 // CSS native
