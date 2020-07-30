@@ -5,6 +5,9 @@ imports:
   - ../../../global/box-shadow.yml
   - ../aliases/box-shadow.yml
 props:
+  shadow:
+    value: "{!shadow-elevation-20}"
+    comment: Default shadow.
   shadow-card:
     value: "{!shadow-elevation-10}"
     comment: Shadow for cards.

@@ -34,6 +34,9 @@ props:
   color-background-body:
     value: "{!palette-gray-0}"
     comment: Background color of the main page body
+  color-background-body-inverse:
+    value: "{!palette-gray-100}"
+    comment: Inverse background color of the main page body
 
   # status
   color-background-neutral-lightest:
