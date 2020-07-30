@@ -5,7 +5,7 @@ import {Absolute, AbsoluteProps} from '@twilio-paste/absolute';
 import {Box, BoxProps} from '@twilio-paste/box';
 import {Text, TextProps} from '@twilio-paste/text';
 import {ScreenReaderOnly} from '@twilio-paste/screen-reader-only';
-import {LineHeight} from '@twilio-paste/style-props';
+import {LineHeight, BoxShadowOptions} from '@twilio-paste/style-props';
 import ColorCombos, {ColorCombinationAccessibility} from '../../utils/color-combos';
 import colorRating from '../../utils/color-rating';
 
@@ -17,10 +17,31 @@ export const ColorBox: React.FC<BackgroundColor> = ({backgroundColor}) => {
   return <Absolute backgroundColor={backgroundColor} padding="space50" preset="fill" />;
 };
 
-type BorderBoxProps = Pick<BoxProps, 'borderColor' | 'borderWidth'>;
-export const BorderBox: React.FC<BorderBoxProps> = ({borderColor, borderWidth}) => {
+type BorderBoxProp = Pick<BoxProps, 'borderColor' | 'borderWidth'>;
+interface BorderBoxProps extends BorderBoxProp {
+  boxColor: string;
+}
+export const BorderBox: React.FC<BorderBoxProps> = ({boxColor, borderColor, borderWidth}) => {
+  let isInverse = false;
+  if (boxColor.includes('inverse')) {
+    isInverse = true;
+  }
   return (
-    <Box borderStyle="solid" borderColor={borderColor} borderWidth={borderWidth || 'borderWidth20'} padding="space60" />
+    <Absolute
+      alignItems="center"
+      backgroundColor={isInverse ? 'colorBackgroundBodyInverse' : 'colorBackgroundBody'}
+      display="flex"
+      padding="space60"
+      preset="fill"
+    >
+      <Box
+        borderStyle="solid"
+        borderColor={borderColor}
+        borderWidth={borderWidth || 'borderWidth20'}
+        padding="space60"
+        width="100%"
+      />
+    </Absolute>
   );
 };
 
@@ -50,7 +71,13 @@ interface TextColorBoxProps extends TextColorBoxProp {
 export const TextColorBox: React.FC<TextColorBoxProps> = ({boxColor, color}) => {
   const theme = useTheme();
   const colorFn = Color(boxColor);
-  const isInverse = colorFn.isLight();
+  let isInverse;
+  if (color !== 'colorTextWeaker') {
+    isInverse = colorFn.isLight();
+  }
+  if (color === 'colorTextInverseWeaker') {
+    isInverse = false;
+  }
   const backgroundColorValue = isInverse
     ? theme.backgroundColors.colorBackgroundInverse
     : theme.backgroundColors.colorBackgroundBody;
@@ -64,14 +91,12 @@ export const TextColorBox: React.FC<TextColorBoxProps> = ({boxColor, color}) => 
 
   return (
     <Absolute
-      backgroundColor={isInverse ? 'colorBackgroundInverse' : 'colorBackgroundBody'}
+      alignItems="center"
+      backgroundColor={isInverse ? 'colorBackgroundBodyInverse' : 'colorBackgroundBody'}
+      display="flex"
+      justifyContent="space-between"
       padding="space60"
       preset="fill"
-      css={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
     >
       <Text as="span" fontSize="fontSize70" lineHeight="lineHeight70" color={color}>
         <ScreenReaderOnly>Example text: </ScreenReaderOnly>Ag
@@ -97,10 +122,25 @@ export const RadiiBox: React.FC<RadiiBoxProps> = ({borderRadius}) => {
 };
 
 interface ShadowBoxProps extends BoxProps {
+  boxColor: string;
   shadow?: string;
 }
-export const ShadowBox: React.FC<ShadowBoxProps> = ({shadow}) => {
-  return <Box borderRadius="borderRadius20" padding="space60" css={{boxShadow: shadow}} />;
+export const ShadowBox: React.FC<ShadowBoxProps> = ({boxColor, shadow}) => {
+  let isInverse = false;
+  if (boxColor.includes('inverse') || boxColor.includes('light') || boxColor.includes('lighter')) {
+    isInverse = true;
+  }
+  return (
+    <Absolute
+      alignItems="center"
+      backgroundColor={isInverse ? 'colorBackgroundBodyInverse' : 'colorBackgroundBody'}
+      display="flex"
+      padding="space60"
+      preset="fill"
+    >
+      <Box borderRadius="borderRadius20" boxShadow={shadow as BoxShadowOptions} padding="space60" width="100%" />
+    </Absolute>
+  );
 };
 
 type SpacingBoxProps = Pick<BoxProps, 'padding'>;
@@ -127,9 +167,9 @@ export const TokenExample: React.FC<TokenExampleProps> = ({token}) => {
     case 'color':
       return <ColorBox backgroundColor={token.value as any} />;
     case 'border-color':
-      return <BorderBox borderColor={tokenName as keyof ThemeShape['borderColors']} />;
+      return <BorderBox boxColor={token.name} borderColor={tokenName as keyof ThemeShape['borderColors']} />;
     case 'border-width':
-      return <BorderBox borderWidth={tokenName as keyof ThemeShape['borderWidths']} />;
+      return <BorderBox boxColor={token.name} borderWidth={tokenName as keyof ThemeShape['borderWidths']} />;
     case 'font':
       return <TextBox fontFamily={tokenName as keyof ThemeShape['fonts']} />;
     case 'font-size':
@@ -139,7 +179,7 @@ export const TokenExample: React.FC<TokenExampleProps> = ({token}) => {
     case 'radius':
       return <RadiiBox borderRadius={tokenName as keyof ThemeShape['radii']} />;
     case 'box-shadow':
-      return <ShadowBox shadow={token.value} />;
+      return <ShadowBox boxColor={token.name} shadow={token.value} />;
     case 'spacing':
       return <SpacingBox padding={tokenName as keyof ThemeShape['space']} />;
     case 'text-color':
