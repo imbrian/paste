@@ -79,7 +79,7 @@ export interface BoxStyleProps
   clip?: ClipProperty;
 }
 
-interface PseudoStylesProps {
+export interface PseudoStylesProps {
   _after?: BoxStyleProps;
   _before?: BoxStyleProps;
   _focus?: BoxStyleProps;
@@ -104,6 +104,7 @@ interface PseudoStylesProps {
   _notFirst?: BoxStyleProps;
   _notLast?: BoxStyleProps;
   _placeholder?: BoxStyleProps;
+  __moz_focus_inner?: BoxStyleProps;
 }
 
 // Omits potential clashes from our style props with HTMLAttributes (i.e.: color)

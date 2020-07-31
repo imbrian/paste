@@ -28,4 +28,5 @@ export const PseudoPropStyles: {[key: string]: string} = {
   _after: '&:after',
   _focusWithin: '&:focus-within',
   _placeholder: '&::placeholder',
+  __moz_focus_inner: '&::-moz-focus-inner',
 };
