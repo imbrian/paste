@@ -16,6 +16,18 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variant: ButtonVariants;
 }
 
+export interface DirectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  as?: keyof JSX.IntrinsicElements;
+  children: React.ReactNode;
+  fullWidth?: boolean;
+  href?: string;
+  loading?: boolean;
+  size: ButtonSizes;
+  tabIndex?: ButtonTabIndexes;
+  type?: ButtonTypes;
+  buttonState: ButtonStates;
+}
+
 export interface ButtonWrapperProps extends ButtonProps {
   buttonState: ButtonStates;
 }

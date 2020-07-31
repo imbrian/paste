@@ -1,83 +1,121 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+// import {variant} from '@twilio-paste/styling-library';
+import {Box} from '@twilio-paste/box';
 import {Spinner} from '@twilio-paste/spinner';
-import {ButtonWrapper, ButtonChildren, SpinnerWrapper} from './styles';
+import {getButtonState, handlePropValidation} from './utils';
+
 import {ButtonProps, ButtonStates, ButtonVariants, ButtonSizes, ButtonTabIndexes} from './types';
+import {PrimaryButton} from './PrimaryButton';
+import {SecondaryButton} from './SecondaryButton';
+import {DestructiveButton} from './DestructiveButton';
+import {LinkButton} from './LinkButton';
+import {DestructiveLinkButton} from './DestructiveLinkButton';
 
-const handlePropValidation = (
-  children: React.ReactNode,
-  variant: ButtonVariants,
-  as?: string,
-  fullWidth?: boolean,
-  href?: string,
-  size?: ButtonSizes,
-  tabIndex?: ButtonTabIndexes
-): void => {
-  const hasHref = href != null && href !== '';
-  const hasTabIndex = tabIndex != null;
+// memo
+// forwardref
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+  const {size, variant, children, ...rest} = props;
+  const buttonState = getButtonState(rest.disabled, rest.loading);
+  // wrap in cache hook
+  // eslint-disable-next-line no-nested-ternary
+  // const cursor = loading ? 'wait' : disabled ? 'not-allowed' : 'pointer';
+  /*
+    defensively resetting from over zealous legacy global
+    styles "a {...}" when button is set as an anchor
 
-  if (as !== 'a' && hasHref) {
-    throw new Error(`[Paste: Button] You cannot pass href into a button without the 'a' tag.  Use 'as="a"'.`);
-  }
-  if (as === 'a' && !hasHref) {
-    throw new Error(`[Paste: Button] Missing href prop for link button.`);
-  }
-  if (as === 'a' && variant === 'link') {
-    throw new Error(`[Paste: Button] This should be a link. Use the [Paste: Anchor] component.`);
-  }
-  if (variant === 'reset' && size !== 'reset') {
-    throw new Error('[Paste: Button] The "RESET" variant can only be used with the "RESET" size.');
-  }
-  if (size === 'icon' && fullWidth) {
-    throw new Error('[Paste: Button] Icon buttons should not be fullWidth.');
-  }
-  if (children == null) {
-    throw new Error(`[Paste: Button] Must have non-null children.`);
-  }
-  if (hasTabIndex && !(tabIndex === 0 || tabIndex === -1)) {
-    throw new Error(`[Paste: Button] tabIndex must be 0 or -1.`);
-  }
-};
+  const hoverStyles = {
+    textDecoration: 'none',
+  };
+  const focusStyles = {
+    boxShadow: 'shadowFocus',
+  };
+*/
 
-const getButtonState = (disabled?: boolean, loading?: boolean): ButtonStates => {
-  if (disabled) {
-    return 'disabled';
-  }
-  if (loading) {
-    return 'loading';
-  }
-  return 'default';
-};
+  handlePropValidation(props);
 
+  // If size isn't passed, come up with a smart default:
+  // - 'reset' for variant 'link'
+  // - 'icon' if there's 1 child that's an icon
+  // - 'default' otherwise
+  let smartDefaultSize = size;
+  if (size == null) {
+    if (variant === 'link' || variant === 'destructive_link') {
+      smartDefaultSize = 'reset';
+    } else if (React.Children.count(children) === 1) {
+      React.Children.forEach(children, child => {
+        if (React.isValidElement(child)) {
+          // @ts-ignore
+          if (typeof child.type.displayName === 'string' && child.type.displayName.includes('Icon')) {
+            smartDefaultSize = 'icon';
+          }
+        }
+      });
+    } else {
+      smartDefaultSize = 'default';
+    }
+  }
+
+  const extraProps = {
+    'aria-busy': buttonState === 'loading' ? 'true' : 'false',
+    className: undefined,
+    style: undefined,
+    ref,
+  };
+
+  switch (variant) {
+    case 'primary':
+      return (
+        // @ts-ignore
+        <PrimaryButton buttonState={buttonState} size={smartDefaultSize as ButtonSizes} {...rest} {...extraProps}>
+          {children}
+        </PrimaryButton>
+      );
+    case 'secondary':
+      return (
+        // @ts-ignore
+        <SecondaryButton buttonState={buttonState} size={smartDefaultSize as ButtonSizes} {...rest} {...extraProps}>
+          {children}
+        </SecondaryButton>
+      );
+    case 'destructive':
+      return (
+        // @ts-ignore
+        <DestructiveButton buttonState={buttonState} size={smartDefaultSize as ButtonSizes} {...rest} {...extraProps}>
+          {children}
+        </DestructiveButton>
+      );
+    case 'link':
+      return (
+        // @ts-ignore
+        <LinkButton buttonState={buttonState} size={smartDefaultSize as ButtonSizes} {...rest} {...extraProps}>
+          {children}
+        </LinkButton>
+      );
+    case 'destructive_link':
+      return (
+        // @ts-ignore
+        <DestructiveLinkButton
+          buttonState={buttonState}
+          size={smartDefaultSize as ButtonSizes}
+          {...rest}
+          {...extraProps}
+        >
+          {children}
+        </DestructiveLinkButton>
+      );
+    default:
+      return null;
+  }
+});
+
+/*
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({as, children, disabled, fullWidth, href, loading, size, tabIndex, variant, ...props}, ref) => {
+  ({as, children, disabled, fullWidth, href, loading, size ='default', tabIndex, variant, ...props}, ref) => {
     const buttonState = getButtonState(disabled, loading);
     const showLoading = buttonState === 'loading';
     const showDisabled = buttonState !== 'default';
 
-    // If size isn't passed, come up with a smart default:
-    // - 'reset' for variant 'link'
-    // - 'icon' if there's 1 child that's an icon
-    // - 'default' otherwise
-    let defaultSize = size;
-    if (defaultSize == null) {
-      defaultSize = 'default';
-
-      if (variant === 'link' || variant === 'destructive_link') {
-        defaultSize = 'reset';
-      } else if (React.Children.count(children) === 1) {
-        React.Children.forEach(children, child => {
-          if (React.isValidElement(child)) {
-            // @ts-ignore
-            if (typeof child.type.displayName === 'string' && child.type.displayName.includes('Icon')) {
-              defaultSize = 'icon';
-            }
-          }
-        });
-      }
-    }
-
-    handlePropValidation(children, variant, as, fullWidth, href, size, tabIndex);
 
     return (
       <ButtonWrapper
@@ -131,3 +169,5 @@ Button.displayName = 'Button';
 
 export {ButtonProps};
 export {Button};
+export {NewButton};
+*/
