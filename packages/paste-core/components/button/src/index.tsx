@@ -19,9 +19,7 @@ export const ButtonChildren: React.FC<ButtonChildrenProps> = ({buttonState, chil
       as="span"
       display="grid"
       gridAutoFlow="column"
-      // TODO: make this work
-      // @ts-ignore
-      columnGap="space20"
+      gridColumnGap="space20"
       justifyContent="center"
       alignItems="center"
       verticalAlign="middle"
