@@ -11,6 +11,8 @@ import {
   position,
   flexbox,
   system,
+  grid,
+  opacity,
 } from '@twilio-paste/styling-library';
 import {
   LayoutProps,
@@ -164,6 +166,7 @@ const extraConfig = system({
   textDecoration: true,
   textOverflow: true,
   whiteSpace: true,
+  opacity: true,
 });
 
 const getPseudoStyles = (props: BoxProps): {} => {
@@ -198,6 +201,8 @@ export const Box = styled.div(
     boxShadow,
     position,
     typography,
+    grid,
+    opacity,
     extraConfig
   ),
   getPseudoStyles
