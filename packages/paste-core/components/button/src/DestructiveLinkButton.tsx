@@ -1,6 +1,6 @@
 import * as React from 'react';
 // import * as PropTypes from 'prop-types';
-import {Box} from '@twilio-paste/box';
+import {Box, BoxStyleProps, PseudoStylesProps} from '@twilio-paste/box';
 import {SizeStyles, ResetStyles, CursorStyles} from './styles';
 import {DirectButtonProps} from './types';
 
@@ -8,12 +8,12 @@ import {DirectButtonProps} from './types';
  * defensively resetting interaction color from over zealous legacy
  * global styles "a {...}" when button is set as an anchor
  */
-const buttonTextColor = {color: 'colorTextLinkDestructive'};
+const buttonTextColor: BoxStyleProps = {color: 'colorTextLinkDestructive'};
 
-const baseDestructiveLinkStyles = {
+const baseDestructiveLinkStyles: BoxStyleProps | PseudoStylesProps = {
   ...ResetStyles,
   ...buttonTextColor,
-  backgroundColor: 'transparent',
+  backgroundColor: 'none',
   _hover: {color: 'colorTextLinkDestructiveDark', textDecoration: 'underline'},
   _focus: {color: 'colorTextLinkDestructiveDark', textDecoration: 'underline'},
   _active: {color: 'colorTextLinkDestructiveDarker', textDecoration: 'underline'},
@@ -27,14 +27,17 @@ const defaultStyles = {
 
   _hover: {
     // NOTE: manual deep merge, maybe use lodash?
+    // @ts-ignore
     // eslint-disable-next-line no-underscore-dangle
     ...baseDestructiveLinkStyles._hover,
   },
   _focus: {
+    // @ts-ignore
     // eslint-disable-next-line no-underscore-dangle
     ...baseDestructiveLinkStyles._focus,
   },
   _active: {
+    // @ts-ignore
     // eslint-disable-next-line no-underscore-dangle
     ...baseDestructiveLinkStyles._active,
   },
@@ -48,14 +51,17 @@ const loadingStyles = {
   ...CursorStyles.loading,
   ...baseLoadingStyles,
   _hover: {
+    // @ts-ignore
     ...baseDestructiveLinkStyles._hover,
     ...baseLoadingStyles,
   },
   _active: {
+    // @ts-ignore
     ...baseDestructiveLinkStyles._active,
     ...baseLoadingStyles,
   },
   _focus: {
+    // @ts-ignore
     ...baseDestructiveLinkStyles._focus,
     ...baseLoadingStyles,
   },
@@ -69,10 +75,12 @@ const disabledStyles = {
   ...CursorStyles.disabled,
   ...baseDisabledStyles,
   _hover: {
+    // @ts-ignore
     ...baseDestructiveLinkStyles._hover,
     ...baseDisabledStyles,
   },
   _active: {
+    // @ts-ignore
     ...baseDestructiveLinkStyles._active,
     ...baseDisabledStyles,
   },
@@ -86,10 +94,10 @@ const ButtonStyles = {
 };
 
 export const DestructiveLinkButton: React.FC<DirectButtonProps> = ({
-  as = 'button',
+  as = 'a',
   loading,
-  disabled,
   size,
+  href,
   children,
   buttonState,
   fullWidth,
@@ -97,7 +105,14 @@ export const DestructiveLinkButton: React.FC<DirectButtonProps> = ({
 }) => {
   return (
     // @ts-ignore
-    <Box as={as} width={fullWidth ? '100%' : 'auto'} {...props} {...SizeStyles[size]} {...ButtonStyles[buttonState]}>
+    <Box
+      as={as}
+      href={href}
+      width={fullWidth ? '100%' : 'auto'}
+      {...props}
+      {...SizeStyles[size]}
+      {...ButtonStyles[buttonState]}
+    >
       {children}
     </Box>
   );

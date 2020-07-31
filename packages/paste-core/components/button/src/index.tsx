@@ -1,25 +1,66 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
-// import {variant} from '@twilio-paste/styling-library';
+// import * as PropTypes from 'prop-types';
+import {Absolute} from '@twilio-paste/absolute';
 import {Box} from '@twilio-paste/box';
+import {styled} from '@twilio-paste/styling-library';
 import {Spinner} from '@twilio-paste/spinner';
 import {getButtonState, handlePropValidation} from './utils';
-
-import {ButtonProps, ButtonStates, ButtonVariants, ButtonSizes, ButtonTabIndexes} from './types';
+import {ButtonProps, ButtonSizes, ButtonChildrenProps, ButtonContentsProps} from './types';
 import {PrimaryButton} from './PrimaryButton';
 import {SecondaryButton} from './SecondaryButton';
 import {DestructiveButton} from './DestructiveButton';
 import {LinkButton} from './LinkButton';
 import {DestructiveLinkButton} from './DestructiveLinkButton';
+import {ResetButton} from './ResetButton';
+
+export const ButtonChildren: React.FC<ButtonChildrenProps> = ({buttonState, children}) => {
+  return (
+    <Box
+      as="span"
+      display="grid"
+      gridAutoFlow="column"
+      // TODO: make this work
+      // @ts-ignore
+      columnGap="space20"
+      justifyContent="center"
+      alignItems="center"
+      verticalAlign="middle"
+      textDecoration="inherit"
+      opacity={buttonState === 'loading' ? '0' : '1'}
+    >
+      {children}
+    </Box>
+  );
+};
+
+export const SpinnerWrapper = styled(Absolute)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 14px;
+`;
+
+export const ButtonContents: React.FC<ButtonContentsProps> = ({buttonState, children, showLoading}) => {
+  return (
+    <>
+      <ButtonChildren buttonState={buttonState}>{children}</ButtonChildren>
+      {showLoading ? (
+        <SpinnerWrapper as="span">
+          <Spinner decorative={false} title="Loading, please wait." delay={0} />
+        </SpinnerWrapper>
+      ) : null}
+    </>
+  );
+};
 
 // memo
 // forwardref
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {size, variant, children, ...rest} = props;
   const buttonState = getButtonState(rest.disabled, rest.loading);
-  // wrap in cache hook
-  // eslint-disable-next-line no-nested-ternary
-  // const cursor = loading ? 'wait' : disabled ? 'not-allowed' : 'pointer';
+  const showLoading = buttonState === 'loading';
+  const showDisabled = buttonState !== 'default';
+
   /*
     defensively resetting from over zealous legacy global
     styles "a {...}" when button is set as an anchor
@@ -30,7 +71,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
   const focusStyles = {
     boxShadow: 'shadowFocus',
   };
-*/
+  */
 
   handlePropValidation(props);
 
@@ -67,29 +108,61 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     case 'primary':
       return (
         // @ts-ignore
-        <PrimaryButton buttonState={buttonState} size={smartDefaultSize as ButtonSizes} {...rest} {...extraProps}>
-          {children}
+        <PrimaryButton
+          buttonState={buttonState}
+          disabled={showDisabled}
+          size={smartDefaultSize as ButtonSizes}
+          {...rest}
+          {...extraProps}
+        >
+          <ButtonContents buttonState={buttonState} showLoading={showLoading}>
+            {children}
+          </ButtonContents>
         </PrimaryButton>
       );
     case 'secondary':
       return (
         // @ts-ignore
-        <SecondaryButton buttonState={buttonState} size={smartDefaultSize as ButtonSizes} {...rest} {...extraProps}>
-          {children}
+        <SecondaryButton
+          buttonState={buttonState}
+          disabled={showDisabled}
+          size={smartDefaultSize as ButtonSizes}
+          {...rest}
+          {...extraProps}
+        >
+          <ButtonContents buttonState={buttonState} showLoading={showLoading}>
+            {children}
+          </ButtonContents>
         </SecondaryButton>
       );
     case 'destructive':
       return (
         // @ts-ignore
-        <DestructiveButton buttonState={buttonState} size={smartDefaultSize as ButtonSizes} {...rest} {...extraProps}>
-          {children}
+        <DestructiveButton
+          buttonState={buttonState}
+          disabled={showDisabled}
+          size={smartDefaultSize as ButtonSizes}
+          {...rest}
+          {...extraProps}
+        >
+          <ButtonContents buttonState={buttonState} showLoading={showLoading}>
+            {children}
+          </ButtonContents>
         </DestructiveButton>
       );
     case 'link':
       return (
         // @ts-ignore
-        <LinkButton buttonState={buttonState} size={smartDefaultSize as ButtonSizes} {...rest} {...extraProps}>
-          {children}
+        <LinkButton
+          buttonState={buttonState}
+          disabled={showDisabled}
+          size={smartDefaultSize as ButtonSizes}
+          {...rest}
+          {...extraProps}
+        >
+          <ButtonContents buttonState={buttonState} showLoading={showLoading}>
+            {children}
+          </ButtonContents>
         </LinkButton>
       );
     case 'destructive_link':
@@ -97,77 +170,58 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
         // @ts-ignore
         <DestructiveLinkButton
           buttonState={buttonState}
+          disabled={showDisabled}
           size={smartDefaultSize as ButtonSizes}
           {...rest}
           {...extraProps}
         >
-          {children}
+          <ButtonContents buttonState={buttonState} showLoading={showLoading}>
+            {children}
+          </ButtonContents>
         </DestructiveLinkButton>
+      );
+    case 'reset':
+      return (
+        // @ts-ignore
+        <ResetButton
+          buttonState={buttonState}
+          disabled={showDisabled}
+          size={smartDefaultSize as ButtonSizes}
+          {...rest}
+          {...extraProps}
+        >
+          <ButtonContents buttonState={buttonState} showLoading={showLoading}>
+            {children}
+          </ButtonContents>
+        </ResetButton>
       );
     default:
       return null;
   }
 });
 
-/*
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({as, children, disabled, fullWidth, href, loading, size ='default', tabIndex, variant, ...props}, ref) => {
-    const buttonState = getButtonState(disabled, loading);
-    const showLoading = buttonState === 'loading';
-    const showDisabled = buttonState !== 'default';
+// Button.defaultProps = {
+//   as: 'button',
+//   fullWidth: false,
+//   loading: false,
+//   type: 'button',
+//   variant: 'primary',
+// };
 
-
-    return (
-      <ButtonWrapper
-        aria-busy={buttonState === 'loading' ? 'true' : 'false'}
-        as={as}
-        buttonState={buttonState}
-        disabled={showDisabled}
-        fullWidth={fullWidth}
-        href={href}
-        size={defaultSize}
-        tabIndex={tabIndex}
-        variant={variant}
-        {...props}
-        className={undefined}
-        style={undefined}
-        ref={ref}
-      >
-        <ButtonChildren buttonState={buttonState}>{children}</ButtonChildren>
-        {showLoading ? (
-          <SpinnerWrapper as="span">
-            <Spinner decorative={false} title="Loading, please wait." delay={0} />
-          </SpinnerWrapper>
-        ) : null}
-      </ButtonWrapper>
-    );
-  }
-);
-
-Button.defaultProps = {
-  as: 'button',
-  fullWidth: false,
-  loading: false,
-  type: 'button',
-  variant: 'primary',
-};
-
-if (process.env.NODE_ENV === 'development') {
-  Button.propTypes = {
-    as: PropTypes.string,
-    fullWidth: PropTypes.bool,
-    href: PropTypes.string,
-    loading: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'default', 'icon', 'reset']),
-    tabIndex: PropTypes.oneOf([0, -1]),
-    type: PropTypes.oneOf(['submit', 'button', 'reset']),
-    variant: PropTypes.oneOf(['primary', 'secondary', 'destructive', 'destructive_link', 'link', 'reset']) as any,
-  };
-}
+// if (process.env.NODE_ENV === 'development') {
+//   Button.propTypes = {
+//     as: PropTypes.string,
+//     fullWidth: PropTypes.bool,
+//     href: PropTypes.string,
+//     loading: PropTypes.bool,
+//     size: PropTypes.oneOf(['small', 'default', 'icon', 'reset']),
+//     tabIndex: PropTypes.oneOf([0, -1]),
+//     type: PropTypes.oneOf(['submit', 'button', 'reset']),
+//     variant: PropTypes.oneOf(['primary', 'secondary', 'destructive', 'destructive_link', 'link', 'reset']) as any,
+//   };
+// }
 
 Button.displayName = 'Button';
 
 export {ButtonProps};
 export {Button};
-export {NewButton};
-*/

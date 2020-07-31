@@ -8,15 +8,9 @@ import {DirectButtonProps} from './types';
  * defensively resetting interaction color from over zealous legacy
  * global styles "a {...}" when button is set as an anchor
  */
-const buttonTextColor: BoxStyleProps = {color: 'colorTextLink'};
 
 const baseLinkStyles: BoxStyleProps | PseudoStylesProps = {
   ...ResetStyles,
-  ...buttonTextColor,
-  backgroundColor: 'none',
-  _hover: {color: 'colorTextLinkDark', textDecoration: 'underline'},
-  _focus: {color: 'colorTextLinkDark', textDecoration: 'underline'},
-  _active: {color: 'colorTextLinkDarker', textDecoration: 'underline'},
 };
 
 const defaultStyles = {
@@ -24,23 +18,6 @@ const defaultStyles = {
   // we have to pass base styles to each variant instead (see _hover)
   ...baseLinkStyles,
   ...CursorStyles.enabled,
-
-  _hover: {
-    // NOTE: manual deep merge, maybe use lodash?
-    // @ts-ignore
-    // eslint-disable-next-line no-underscore-dangle
-    ...baseLinkStyles._hover,
-  },
-  _focus: {
-    // @ts-ignore
-    // eslint-disable-next-line no-underscore-dangle
-    ...baseLinkStyles._focus,
-  },
-  _active: {
-    // @ts-ignore
-    // eslint-disable-next-line no-underscore-dangle
-    ...baseLinkStyles._active,
-  },
 };
 const baseLoadingStyles = {
   color: 'colorTextLinkDarker',
@@ -50,21 +27,6 @@ const loadingStyles = {
   ...baseLinkStyles,
   ...CursorStyles.loading,
   ...baseLoadingStyles,
-  _hover: {
-    // @ts-ignore
-    ...baseLinkStyles._hover,
-    ...baseLoadingStyles,
-  },
-  _active: {
-    // @ts-ignore
-    ...baseLinkStyles._active,
-    ...baseLoadingStyles,
-  },
-  _focus: {
-    // @ts-ignore
-    ...baseLinkStyles._focus,
-    ...baseLoadingStyles,
-  },
 };
 
 const baseDisabledStyles = {
@@ -74,16 +36,6 @@ const disabledStyles = {
   ...baseLinkStyles,
   ...CursorStyles.disabled,
   ...baseDisabledStyles,
-  _hover: {
-    // @ts-ignore
-    ...baseLinkStyles._hover,
-    ...baseDisabledStyles,
-  },
-  _active: {
-    // @ts-ignore
-    ...baseLinkStyles._active,
-    ...baseDisabledStyles,
-  },
 };
 /* eslint-enable */
 
@@ -93,8 +45,8 @@ const ButtonStyles = {
   disabled: disabledStyles,
 };
 
-export const LinkButton: React.FC<DirectButtonProps> = ({
-  as = 'a',
+export const ResetButton: React.FC<DirectButtonProps> = ({
+  as = 'button',
   loading,
   size,
   href,

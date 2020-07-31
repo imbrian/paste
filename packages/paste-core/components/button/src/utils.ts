@@ -1,4 +1,4 @@
-import {ButtonStates, ButtonProps, ButtonVariants, ButtonSizes, ButtonTabIndexes} from './types';
+import {ButtonStates, ButtonProps} from './types';
 
 export const getButtonState = (disabled?: boolean, loading?: boolean): ButtonStates => {
   if (disabled) {
@@ -10,18 +10,28 @@ export const getButtonState = (disabled?: boolean, loading?: boolean): ButtonSta
   return 'default';
 };
 
-export const handlePropValidation = ({as, href, tabIndex, variant, size, fullWidth, children}: ButtonProps): void => {
+export const handlePropValidation = ({href, tabIndex, variant, size, fullWidth, children}: ButtonProps): void => {
   const hasHref = href != null && href !== '';
   const hasTabIndex = tabIndex != null;
 
-  if (as !== 'a' && hasHref) {
-    throw new Error(`[Paste: Button] You cannot pass href into a button without the 'a' tag.  Use 'as="a"'.`);
+  // if (as !== 'a' && hasHref) {
+  //   throw new Error(`[Paste: Button] You cannot pass href into a button without the 'a' tag.  Use 'as="a"'.`);
+  // }
+  // if (as === 'a' && !hasHref) {
+  //   throw new Error(`[Paste: Button] Missing href prop for link button.`);
+  // }
+  // if (as === 'a' && variant === 'link') {
+  //   throw new Error(`[Paste: Button] This should be a link. Use the [Paste: Anchor] component.`);
+  // }
+
+  // TODO: desctructive_link / href errors
+  if (variant !== 'link' && hasHref) {
+    throw new Error(
+      `[Paste: Button] You cannot pass href into a button without the 'a' tag.  Use 'variant="link"' or 'variant="destructive_link"'.`
+    );
   }
-  if (as === 'a' && !hasHref) {
+  if (variant === 'link' && !hasHref) {
     throw new Error(`[Paste: Button] Missing href prop for link button.`);
-  }
-  if (as === 'a' && variant === 'link') {
-    throw new Error(`[Paste: Button] This should be a link. Use the [Paste: Anchor] component.`);
   }
   if (variant === 'reset' && size !== 'reset') {
     throw new Error('[Paste: Button] The "RESET" variant can only be used with the "RESET" size.');

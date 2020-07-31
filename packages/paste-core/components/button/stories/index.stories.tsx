@@ -49,7 +49,7 @@ storiesOf('Components|Button', module)
         onFocus={action('handleFocus')}
         onBlur={action('handleBlur')}
       >
-        <PlusIcon decorative />
+        <PlusIcon decorative size="sizeIcon20" />
         <span>Activate</span>
       </Button>
     );
@@ -69,7 +69,7 @@ storiesOf('Components|Button', module)
         onFocus={action('handleFocus')}
         onBlur={action('handleBlur')}
       >
-        <PlusIcon decorative={false} title="Add to cart" />
+        <PlusIcon decorative={false} title="Add to cart" size="sizeIcon20" />
       </Button>
     );
   })
@@ -324,6 +324,17 @@ storiesOf('Components|Button', module)
           </Button>
           <Button variant="reset" size="reset" disabled>
             Reset
+          </Button>
+        </section>
+      </React.Fragment>
+    );
+  })
+  .add('New buttons', () => {
+    return (
+      <React.Fragment>
+        <section>
+          <Button variant="link" href="http://test.com" size="default">
+            Primary
           </Button>
         </section>
       </React.Fragment>

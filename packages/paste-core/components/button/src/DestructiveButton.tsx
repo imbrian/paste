@@ -1,6 +1,6 @@
 import * as React from 'react';
 // import * as PropTypes from 'prop-types';
-import {Box} from '@twilio-paste/box';
+import {Box, BoxStyleProps, PseudoStylesProps} from '@twilio-paste/box';
 import {SizeStyles, ResetStyles, CursorStyles} from './styles';
 import {DirectButtonProps} from './types';
 
@@ -8,9 +8,9 @@ import {DirectButtonProps} from './types';
  * defensively resetting interaction color from over zealous legacy
  * global styles "a {...}" when button is set as an anchor
  */
-const buttonTextColor = {color: 'colorTextInverse'};
+const buttonTextColor: BoxStyleProps = {color: 'colorTextInverse'};
 
-const baseDestructiveStyles = {
+const baseDestructiveStyles: BoxStyleProps | PseudoStylesProps = {
   ...ResetStyles,
   ...buttonTextColor,
   _hover: buttonTextColor,
@@ -99,8 +99,8 @@ const ButtonStyles = {
 export const DestructiveButton: React.FC<DirectButtonProps> = ({
   as = 'button',
   loading,
-  disabled,
   size,
+  href,
   children,
   buttonState,
   fullWidth,
@@ -108,7 +108,14 @@ export const DestructiveButton: React.FC<DirectButtonProps> = ({
 }) => {
   return (
     // @ts-ignore
-    <Box as={as} width={fullWidth ? '100%' : 'auto'} {...props} {...SizeStyles[size]} {...ButtonStyles[buttonState]}>
+    <Box
+      as={as}
+      href={href}
+      width={fullWidth ? '100%' : 'auto'}
+      {...props}
+      {...SizeStyles[size]}
+      {...ButtonStyles[buttonState]}
+    >
       {children}
     </Box>
   );

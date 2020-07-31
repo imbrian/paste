@@ -35,3 +35,7 @@ export interface ButtonWrapperProps extends ButtonProps {
 export interface ButtonChildrenProps {
   buttonState: ButtonStates;
 }
+export interface ButtonContentsProps {
+  buttonState: ButtonStates;
+  showLoading: boolean;
+}

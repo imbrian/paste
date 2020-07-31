@@ -97,8 +97,8 @@ const ButtonStyles = {
 export const PrimaryButton: React.FC<DirectButtonProps> = ({
   as = 'button',
   loading,
-  disabled,
   size,
+  href,
   children,
   buttonState,
   fullWidth,
@@ -106,7 +106,14 @@ export const PrimaryButton: React.FC<DirectButtonProps> = ({
 }) => {
   return (
     // @ts-ignore
-    <Box as={as} width={fullWidth ? '100%' : 'auto'} {...props} {...SizeStyles[size]} {...ButtonStyles[buttonState]}>
+    <Box
+      as={as}
+      href={href}
+      width={fullWidth ? '100%' : 'auto'}
+      {...props}
+      {...SizeStyles[size]}
+      {...ButtonStyles[buttonState]}
+    >
       {children}
     </Box>
   );
