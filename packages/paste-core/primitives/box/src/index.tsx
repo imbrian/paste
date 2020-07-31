@@ -23,6 +23,7 @@ import {
   PositionProps,
   FlexboxProps,
   TypographyProps,
+  GridProps,
 } from '@twilio-paste/style-props';
 import {
   CursorProperty,
@@ -57,7 +58,8 @@ export interface BoxStyleProps
     ShadowProps,
     PositionProps,
     TypographyProps,
-    FlexboxProps {
+    FlexboxProps,
+    GridProps {
   content?: string;
   cursor?: CursorProperty;
   appearance?: AppearanceProperty;
@@ -79,6 +81,7 @@ export interface BoxStyleProps
   float?: FloatProperty;
   willChange?: WillChangeProperty;
   clip?: ClipProperty;
+  opacity?: string;
 }
 
 export interface PseudoStylesProps {
