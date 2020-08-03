@@ -1,6 +1,5 @@
 export {isBackgroundColorTokenProp} from './background';
 export {isBorderColorTokenProp, isBorderRadiusTokenProp, isBorderWidthTokenProp} from './border';
-export {isGridColumnGapTokenProp} from './grid';
 export {
   isHeightTokenProp,
   isMaxHeightTokenProp,
