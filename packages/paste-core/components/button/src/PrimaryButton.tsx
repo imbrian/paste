@@ -1,6 +1,6 @@
 import * as React from 'react';
 // import * as PropTypes from 'prop-types';
-import {Box, BoxStyleProps, PseudoStylesProps} from '@twilio-paste/box';
+import {Box, BoxStyleProps, PseudoStylesProps, safelySpreadBoxProps} from '@twilio-paste/box';
 import {SizeStyles, ResetStyles, CursorStyles} from './styles';
 import {DirectButtonProps} from './types';
 
@@ -18,7 +18,7 @@ const basePrimaryStyles: BoxStyleProps | PseudoStylesProps = {
   _active: buttonTextColor,
 };
 
-const defaultStyles = {
+const defaultStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   // NOTE: hover styles get overriden so we can't just do "...baseStyles" here,
   // we have to pass base styles to each variant instead (see _hover)
   ...basePrimaryStyles,
@@ -46,12 +46,14 @@ const defaultStyles = {
     borderColor: 'colorBorderPrimaryDarker',
   },
 };
-const baseLoadingStyles = {
+
+const baseLoadingStyles: BoxStyleProps = {
   backgroundColor: 'colorBackgroundPrimaryDarker',
   borderColor: 'colorBorderPrimaryDarker',
 };
+
 /* eslint-disable no-underscore-dangle */
-const loadingStyles = {
+const loadingStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   ...basePrimaryStyles,
   ...CursorStyles.loading,
   ...baseLoadingStyles,
@@ -69,10 +71,11 @@ const loadingStyles = {
   },
 };
 
-const baseDisabledStyles = {
+const baseDisabledStyles: BoxStyleProps = {
   backgroundColor: 'colorBackgroundPrimaryLight',
   borderColor: 'colorBorderPrimaryLight',
 };
+
 const disabledStyles = {
   ...basePrimaryStyles,
   ...CursorStyles.disabled,
@@ -94,6 +97,7 @@ const ButtonStyles = {
   disabled: disabledStyles,
 };
 
+// needs safely
 export const PrimaryButton: React.FC<DirectButtonProps> = ({
   as = 'button',
   loading,
@@ -105,12 +109,11 @@ export const PrimaryButton: React.FC<DirectButtonProps> = ({
   ...props
 }) => {
   return (
-    // @ts-ignore
     <Box
       as={as}
       href={href}
       width={fullWidth ? '100%' : 'auto'}
-      {...props}
+      {...safelySpreadBoxProps(props)}
       {...SizeStyles[size]}
       {...ButtonStyles[buttonState]}
     >

@@ -18,7 +18,7 @@ const baseDestructiveStyles: BoxStyleProps | PseudoStylesProps = {
   _active: buttonTextColor,
 };
 
-const defaultStyles = {
+const defaultStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   // NOTE: hover styles get overriden so we can't just do "...baseStyles" here,
   // we have to pass base styles to each variant instead (see _hover)
   ...baseDestructiveStyles,
@@ -46,13 +46,15 @@ const defaultStyles = {
     borderColor: 'colorBorderDestructiveDarker',
   },
 };
-const baseLoadingStyles = {
+
+const baseLoadingStyles: BoxStyleProps = {
   color: 'colorTextInverse',
   backgroundColor: 'colorBackgroundDestructiveDarker',
   borderColor: 'colorBorderDestructiveDarker',
 };
+
 /* eslint-disable no-underscore-dangle */
-const loadingStyles = {
+const loadingStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   ...baseDestructiveStyles,
   ...CursorStyles.loading,
   ...baseLoadingStyles,
@@ -70,12 +72,13 @@ const loadingStyles = {
   },
 };
 
-const baseDisabledStyles = {
+const baseDisabledStyles: BoxStyleProps = {
   color: 'colorTextInverse',
   backgroundColor: 'colorBackgroundDestructiveLight',
   borderColor: 'colorBorderDestructiveLight',
 };
-const disabledStyles = {
+
+const disabledStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   ...baseDestructiveStyles,
   ...CursorStyles.disabled,
   ...baseDisabledStyles,
@@ -107,7 +110,6 @@ export const DestructiveButton: React.FC<DirectButtonProps> = ({
   ...props
 }) => {
   return (
-    // @ts-ignore
     <Box
       as={as}
       href={href}

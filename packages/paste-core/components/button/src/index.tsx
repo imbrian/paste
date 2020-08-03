@@ -2,6 +2,7 @@ import * as React from 'react';
 // import * as PropTypes from 'prop-types';
 import {Absolute} from '@twilio-paste/absolute';
 import {Box} from '@twilio-paste/box';
+import {Stack} from '@twilio-paste/stack';
 import {styled} from '@twilio-paste/styling-library';
 import {Spinner} from '@twilio-paste/spinner';
 import {getButtonState, handlePropValidation} from './utils';
@@ -14,18 +15,17 @@ import {DestructiveLinkButton} from './DestructiveLinkButton';
 import {ResetButton} from './ResetButton';
 
 export const ButtonChildren: React.FC<ButtonChildrenProps> = ({buttonState, children}) => {
+  if (React.Children.count(children) > 1) {
+    return (
+      <Box as="span" textDecoration="inherit" opacity={buttonState === 'loading' ? '0' : '1'}>
+        <Stack orientation="horizontal" spacing="space20">
+          {children}
+        </Stack>
+      </Box>
+    );
+  }
   return (
-    <Box
-      as="span"
-      display="grid"
-      gridAutoFlow="column"
-      gridColumnGap="space20"
-      justifyContent="center"
-      alignItems="center"
-      verticalAlign="middle"
-      textDecoration="inherit"
-      opacity={buttonState === 'loading' ? '0' : '1'}
-    >
+    <Box as="span" textDecoration="inherit" opacity={buttonState === 'loading' ? '0' : '1'}>
       {children}
     </Box>
   );
@@ -96,7 +96,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => 
   }
 
   const extraProps = {
-    'aria-busy': buttonState === 'loading' ? 'true' : 'false',
+    'aria-busy': buttonState === 'loading',
     className: undefined,
     style: undefined,
     ref,

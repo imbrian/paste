@@ -19,7 +19,7 @@ const baseLinkStyles: BoxStyleProps | PseudoStylesProps = {
   _active: {color: 'colorTextLinkDarker', textDecoration: 'underline'},
 };
 
-const defaultStyles = {
+const defaultStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   // NOTE: hover styles get overriden so we can't just do "...baseStyles" here,
   // we have to pass base styles to each variant instead (see _hover)
   ...baseLinkStyles,
@@ -42,11 +42,13 @@ const defaultStyles = {
     ...baseLinkStyles._active,
   },
 };
-const baseLoadingStyles = {
+
+const baseLoadingStyles: BoxStyleProps = {
   color: 'colorTextLinkDarker',
 };
+
 /* eslint-disable no-underscore-dangle */
-const loadingStyles = {
+const loadingStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   ...baseLinkStyles,
   ...CursorStyles.loading,
   ...baseLoadingStyles,
@@ -67,10 +69,11 @@ const loadingStyles = {
   },
 };
 
-const baseDisabledStyles = {
+const baseDisabledStyles: BoxStyleProps = {
   color: 'colorTextLinkLight',
 };
-const disabledStyles = {
+
+const disabledStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   ...baseLinkStyles,
   ...CursorStyles.disabled,
   ...baseDisabledStyles,
@@ -104,7 +107,6 @@ export const LinkButton: React.FC<DirectButtonProps> = ({
   ...props
 }) => {
   return (
-    // @ts-ignore
     <Box
       as={as}
       href={href}

@@ -16,7 +16,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variant: ButtonVariants;
 }
 
-export interface DirectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface DirectButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
   as?: keyof JSX.IntrinsicElements;
   children: React.ReactNode;
   fullWidth?: boolean;

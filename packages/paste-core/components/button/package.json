@@ -33,6 +33,7 @@
     "@twilio-paste/design-tokens": "^5.5.0",
     "@twilio-paste/icons": "^2.6.2",
     "@twilio-paste/spinner": "^1.2.31",
+    "@twilio-paste/stack": "^0.1.24",
     "@twilio-paste/style-props": "^1.4.0",
     "@twilio-paste/styling-library": "^0.1.1",
     "@twilio-paste/theme": "^3.2.10",

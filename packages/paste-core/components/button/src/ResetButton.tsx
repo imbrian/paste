@@ -13,26 +13,29 @@ const baseLinkStyles: BoxStyleProps | PseudoStylesProps = {
   ...ResetStyles,
 };
 
-const defaultStyles = {
+const defaultStyles: BoxStyleProps = {
   // NOTE: hover styles get overriden so we can't just do "...baseStyles" here,
   // we have to pass base styles to each variant instead (see _hover)
   ...baseLinkStyles,
   ...CursorStyles.enabled,
 };
-const baseLoadingStyles = {
+
+const baseLoadingStyles: BoxStyleProps = {
   color: 'colorTextLinkDarker',
 };
+
 /* eslint-disable no-underscore-dangle */
-const loadingStyles = {
+const loadingStyles: BoxStyleProps = {
   ...baseLinkStyles,
   ...CursorStyles.loading,
   ...baseLoadingStyles,
 };
 
-const baseDisabledStyles = {
+const baseDisabledStyles: BoxStyleProps = {
   color: 'colorTextLinkLight',
 };
-const disabledStyles = {
+
+const disabledStyles: BoxStyleProps = {
   ...baseLinkStyles,
   ...CursorStyles.disabled,
   ...baseDisabledStyles,
@@ -56,7 +59,6 @@ export const ResetButton: React.FC<DirectButtonProps> = ({
   ...props
 }) => {
   return (
-    // @ts-ignore
     <Box
       as={as}
       href={href}

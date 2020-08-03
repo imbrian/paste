@@ -19,7 +19,7 @@ const baseDestructiveLinkStyles: BoxStyleProps | PseudoStylesProps = {
   _active: {color: 'colorTextLinkDestructiveDarker', textDecoration: 'underline'},
 };
 
-const defaultStyles = {
+const defaultStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   // NOTE: hover styles get overriden so we can't just do "...baseStyles" here,
   // we have to pass base styles to each variant instead (see _hover)
   ...baseDestructiveLinkStyles,
@@ -42,11 +42,13 @@ const defaultStyles = {
     ...baseDestructiveLinkStyles._active,
   },
 };
-const baseLoadingStyles = {
+
+const baseLoadingStyles: BoxStyleProps = {
   color: 'colorTextLinkDestructiveDarker',
 };
+
 /* eslint-disable no-underscore-dangle */
-const loadingStyles = {
+const loadingStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   ...baseDestructiveLinkStyles,
   ...CursorStyles.loading,
   ...baseLoadingStyles,
@@ -67,7 +69,7 @@ const loadingStyles = {
   },
 };
 
-const baseDisabledStyles = {
+const baseDisabledStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   color: 'colorTextLinkDestructiveLight',
 };
 const disabledStyles = {

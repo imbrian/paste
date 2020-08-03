@@ -18,7 +18,7 @@ const baseSecondaryStyles: BoxStyleProps | PseudoStylesProps = {
   _active: {color: 'colorTextLinkDarker'},
 };
 
-const defaultStyles = {
+const defaultStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   // NOTE: hover styles get overriden so we can't just do "...baseStyles" here,
   // we have to pass base styles to each variant instead (see _hover)
   ...baseSecondaryStyles,
@@ -47,13 +47,15 @@ const defaultStyles = {
     borderColor: 'colorBorderPrimaryDarker',
   },
 };
-const baseLoadingStyles = {
+
+const baseLoadingStyles: BoxStyleProps = {
   color: 'colorTextLinkDarker',
   backgroundColor: 'colorBackgroundPrimaryLighter',
   borderColor: 'colorBorderPrimaryLighter',
 };
+
 /* eslint-disable no-underscore-dangle */
-const loadingStyles = {
+const loadingStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   ...baseSecondaryStyles,
   ...CursorStyles.loading,
   ...baseLoadingStyles,
@@ -71,12 +73,13 @@ const loadingStyles = {
   },
 };
 
-const baseDisabledStyles = {
+const baseDisabledStyles: BoxStyleProps = {
   color: 'colorTextLinkLight',
   backgroundColor: 'colorBackgroundBody',
   borderColor: 'colorBorderPrimaryLight',
 };
-const disabledStyles = {
+
+const disabledStyles: BoxStyleProps | {[key: string]: BoxStyleProps} = {
   ...baseSecondaryStyles,
   ...CursorStyles.disabled,
   ...baseDisabledStyles,
@@ -108,7 +111,6 @@ export const SecondaryButton: React.FC<DirectButtonProps> = ({
   ...props
 }) => {
   return (
-    // @ts-ignore
     <Box
       as={as}
       href={href}
