@@ -18,7 +18,6 @@ import {
   isFontSizeTokenProp,
   isFontWeightTokenProp,
   isLineHeightTokenProp,
-  isGridColumnGapTokenProp,
   ResponsiveProp,
 } from '@twilio-paste/style-props';
 
@@ -137,6 +136,4 @@ export const BoxPropTypes = {
   justifySelf: ResponsiveProp(PropTypes.string),
   alignSelf: ResponsiveProp(PropTypes.string),
   order: ResponsiveProp(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-  // grid
-  gridColumnGap: isGridColumnGapTokenProp,
 };

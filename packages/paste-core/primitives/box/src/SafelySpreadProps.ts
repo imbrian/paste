@@ -7,7 +7,6 @@ import {
   POSITION_PROPS,
   FLEXBOX_PROPS,
   TYPOGRAPHY_PROPS,
-  GRID_PROPS,
 } from '@twilio-paste/style-props';
 import {PseudoPropStyles} from './PseudoPropStyles';
 
@@ -20,7 +19,6 @@ export const BOX_PROPS_TO_BLOCK = [
   ...POSITION_PROPS,
   ...FLEXBOX_PROPS,
   ...TYPOGRAPHY_PROPS,
-  ...GRID_PROPS,
   ...Object.keys(PseudoPropStyles),
   'backgroundColor',
   'borderColor',

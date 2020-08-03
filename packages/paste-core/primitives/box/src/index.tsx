@@ -11,7 +11,6 @@ import {
   position,
   flexbox,
   system,
-  grid,
   opacity,
 } from '@twilio-paste/styling-library';
 import {
@@ -23,7 +22,6 @@ import {
   PositionProps,
   FlexboxProps,
   TypographyProps,
-  GridProps,
 } from '@twilio-paste/style-props';
 import {
   CursorProperty,
@@ -58,8 +56,7 @@ export interface BoxStyleProps
     ShadowProps,
     PositionProps,
     TypographyProps,
-    FlexboxProps,
-    GridProps {
+    FlexboxProps {
   content?: string;
   cursor?: CursorProperty;
   appearance?: AppearanceProperty;
