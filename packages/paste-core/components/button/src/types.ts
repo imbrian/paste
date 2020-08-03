@@ -5,7 +5,7 @@ export type ButtonStates = 'disabled' | 'loading' | 'default';
 export type ButtonTabIndexes = 0 | -1;
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  as?: string;
+  as?: keyof JSX.IntrinsicElements;
   children: React.ReactNode;
   fullWidth?: boolean;
   href?: string;

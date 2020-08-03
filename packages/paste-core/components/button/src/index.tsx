@@ -105,7 +105,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => 
   switch (variant) {
     case 'primary':
       return (
-        // @ts-ignore
         <PrimaryButton
           buttonState={buttonState}
           disabled={showDisabled}
@@ -135,7 +134,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => 
       );
     case 'destructive':
       return (
-        // @ts-ignore
         <DestructiveButton
           buttonState={buttonState}
           disabled={showDisabled}
@@ -150,7 +148,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => 
       );
     case 'link':
       return (
-        // @ts-ignore
         <LinkButton
           buttonState={buttonState}
           disabled={showDisabled}
@@ -165,7 +162,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => 
       );
     case 'destructive_link':
       return (
-        // @ts-ignore
         <DestructiveLinkButton
           buttonState={buttonState}
           disabled={showDisabled}
@@ -180,7 +176,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => 
       );
     case 'reset':
       return (
-        // @ts-ignore
         <ResetButton
           buttonState={buttonState}
           disabled={showDisabled}
