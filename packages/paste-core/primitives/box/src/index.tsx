@@ -201,7 +201,6 @@ export const Box = styled.div(
     boxShadow,
     position,
     typography,
-    grid,
     opacity,
     extraConfig
   ),
